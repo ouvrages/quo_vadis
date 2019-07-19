@@ -153,7 +153,7 @@ class LocaleTest < ActiveSupport::IntegrationCase
   end
 
   test 'forgotten.invalid_token flash' do
-    visit change_password_path('123')
+    visit get_change_password_path('123')
     within '.flash.alert' do
       assert page.has_content?("Sorry, this link isn't valid anymore.")
     end
@@ -162,7 +162,7 @@ class LocaleTest < ActiveSupport::IntegrationCase
   test 'forgotten.invalid_token flash is optional' do
     begin
       I18n.backend.store_translations :en, {:quo_vadis => {:flash => {:forgotten => {:invalid_token => ''}}}}
-      visit change_password_path('123')
+      visit get_change_password_path('123')
       assert page.has_no_css?('div.flash')
     ensure
       I18n.reload!
@@ -172,7 +172,7 @@ class LocaleTest < ActiveSupport::IntegrationCase
   test 'forgotten.password_changed flash' do
     user_factory 'Bob', 'bob', 'secret', 'bob@example.com'
     User.last.generate_token!
-    visit change_password_path(User.last.token)
+    visit get_change_password_path(User.last.token)
     fill_in :password, :with => 'topsecret'
     click_button 'Change my password'
     within '.flash.notice' do
@@ -185,7 +185,7 @@ class LocaleTest < ActiveSupport::IntegrationCase
       I18n.backend.store_translations :en, {:quo_vadis => {:flash => {:forgotten => {:password_changed => ''}}}}
       user_factory 'Bob', 'bob', 'secret', 'bob@example.com'
       User.last.generate_token!
-      visit change_password_path(User.last.token)
+      visit get_change_password_path(User.last.token)
       fill_in :password, :with => 'topsecret'
       click_button 'Change my password'
       assert page.has_no_css?('div.flash')

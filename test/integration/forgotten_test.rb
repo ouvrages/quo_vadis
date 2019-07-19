@@ -10,7 +10,7 @@ class ForgottenTest < ActiveSupport::IntegrationCase
     u = user_factory 'Bob', 'bob', 'secret'
     u.update_attribute :username, ''
     submit_forgotten_details ''
-    assert_equal forgotten_sign_in_path, current_path
+    assert_equal get_forgotten_sign_in_path, current_path
     within '.flash.alert' do
       assert page.has_content?("Sorry, we did not recognise you.")
     end
@@ -18,7 +18,7 @@ class ForgottenTest < ActiveSupport::IntegrationCase
 
   test 'user fills in forgotten-password form with invalid username' do
     submit_forgotten_details 'bob'
-    assert_equal forgotten_sign_in_path, current_path
+    assert_equal get_forgotten_sign_in_path, current_path
     within '.flash.alert' do
       assert page.has_content?("Sorry, we did not recognise you.")
     end
@@ -27,7 +27,7 @@ class ForgottenTest < ActiveSupport::IntegrationCase
   test 'user without email requests password-change email' do
     user_factory 'Bob', 'bob', 'secret'
     submit_forgotten_details 'bob'
-    assert_equal forgotten_sign_in_path, current_path
+    assert_equal get_forgotten_sign_in_path, current_path
     within '.flash.alert' do
       assert page.has_content?("Sorry, we don't have an email address for you.")
     end
@@ -47,7 +47,7 @@ class ForgottenTest < ActiveSupport::IntegrationCase
     assert_equal ['noreply@example.com'], email.from
     assert_equal 'Change your password',  email.subject
     # Why doesn't this use the default url option set up in test/test_helper.rb#9?
-    assert_match Regexp.new(Regexp.escape(change_password_url User.last.token, :host => 'www.example.com')), email.encoded
+    assert_match Regexp.new(Regexp.escape(get_change_password_url User.last.token, :host => 'www.example.com')), email.encoded
   end
 
   test 'user can follow emailed link while valid to change password' do
@@ -74,7 +74,7 @@ class ForgottenTest < ActiveSupport::IntegrationCase
     visit link_in_email
     fill_in :password, :with => ''
     click_button 'Change my password'
-    assert_equal change_password_path(User.last.token), current_path
+    assert_equal get_change_password_path(User.last.token), current_path
   end
 
   test 'user cannot change password once emailed link is invalid' do
@@ -84,7 +84,7 @@ class ForgottenTest < ActiveSupport::IntegrationCase
 
     link_in_email = ActionMailer::Base.deliveries.last.encoded[%r{http://.*}].strip
     visit link_in_email
-    assert_equal forgotten_sign_in_path, current_path
+    assert_equal get_forgotten_sign_in_path, current_path
     within '.flash.alert' do
       assert page.has_content?("Sorry, this link isn't valid anymore.")
     end

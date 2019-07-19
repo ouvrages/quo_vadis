@@ -38,7 +38,7 @@ module ControllerMixin
       unless authenticated?
         session[:quo_vadis_original_url] = request.fullpath
         flash[:notice] = t('quo_vadis.flash.sign_in.before') unless t('quo_vadis.flash.sign_in.before').blank?
-        redirect_to sign_in_url
+        redirect_to get_sign_in_url
       end
     end
 

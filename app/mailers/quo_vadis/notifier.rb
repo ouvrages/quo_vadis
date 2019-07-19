@@ -5,7 +5,7 @@ module QuoVadis
     # can change their password.
     def change_password(user)
       @username = user.username
-      @url = change_password_url user.token
+      @url = get_change_password_url user.token
       mail :to => user.email, :from => QuoVadis.from, :subject => I18n.t('quo_vadis.notifier.change_password.subject')
     end
 
@@ -18,7 +18,7 @@ module QuoVadis
     def invite(user, data = {})
       @user = user
       @url = invitation_url user.token
-      
+
       from    = data.delete(:from)    || QuoVadis.from
       subject = data.delete(:subject) || I18n.t('quo_vadis.notifier.invite.subject')
 

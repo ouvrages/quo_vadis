@@ -33,7 +33,7 @@ class CookieTest < ActiveSupport::IntegrationCase
     visit sign_out_path
     close_browser
     visit new_article_path
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
   end
 
   test "changing user's password prevents user being remembered in the next browser session" do
@@ -43,7 +43,7 @@ class CookieTest < ActiveSupport::IntegrationCase
     User.last.update_attributes! :password => 'topsecret'
     close_browser
     visit new_article_path
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
   end
 
   test 'length of time user is remembered can be configured' do
@@ -53,7 +53,7 @@ class CookieTest < ActiveSupport::IntegrationCase
     close_browser
     sleep 2
     visit new_article_path
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
   end
 
   test 'remembering user between sessions can be turned off' do
@@ -62,6 +62,6 @@ class CookieTest < ActiveSupport::IntegrationCase
     sign_in_as 'bob', 'secret'
     close_browser
     visit new_article_path
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
   end
 end

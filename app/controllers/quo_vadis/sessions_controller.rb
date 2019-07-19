@@ -134,7 +134,7 @@ class QuoVadis::SessionsController < ApplicationController
       redirect_to root_path
     else
       flash_if_present :alert, 'quo_vadis.flash.forgotten.invalid_token'
-      redirect_to forgotten_sign_in_url
+      redirect_to get_forgotten_sign_in_url
     end
   end
 

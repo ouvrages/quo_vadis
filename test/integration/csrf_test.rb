@@ -36,6 +36,6 @@ class CsrfTest < ActionController::IntegrationTest
     # assert we are signed out, both at session level and cookie level.
     assert cookies['remember_me'].blank?
     get_via_redirect new_article_path
-    assert_equal sign_in_path, path
+    assert_equal get_sign_in_path, path
   end
 end

@@ -33,7 +33,7 @@ class ConfigTest < ActiveSupport::IntegrationCase
 
   test 'override_original_url config' do
     visit new_article_path
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
     sign_in_as 'bob', 'secret'
     assert_equal new_article_path, current_path
     visit sign_out_path
@@ -41,7 +41,7 @@ class ConfigTest < ActiveSupport::IntegrationCase
     QuoVadis.override_original_url = true
 
     visit new_article_path
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
     sign_in_as 'bob', 'secret'
     assert_equal root_path, current_path
   end

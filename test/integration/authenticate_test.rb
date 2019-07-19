@@ -18,9 +18,9 @@ class AuthenticationTest < ActiveSupport::IntegrationCase
   test 'action requiring authentication' do
     # try to see page
     visit new_article_path
-    
+
     # test we need to authenticate
-    assert_equal sign_in_path, current_path
+    assert_equal get_sign_in_path, current_path
     within '.flash.notice' do
       assert page.has_content? 'Please sign in first.'
     end

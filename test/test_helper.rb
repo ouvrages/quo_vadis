@@ -26,14 +26,14 @@ Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 #
 
 def sign_in_as(username, password)
-  visit sign_in_path
+  visit get_sign_in_path
   fill_in 'username', :with => username
   fill_in 'password', :with => password
   click_button 'Sign in'
 end
 
 def submit_forgotten_details(username)
-  visit forgotten_sign_in_path
+  visit get_forgotten_sign_in_path
   fill_in 'username', :with => username
   click_button 'Send me that email'
 end
